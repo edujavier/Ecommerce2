@@ -1,10 +1,9 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button, Card, Col, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {filterNewsThunk, getNewsThunk, filterHeadlineThunk} from "../store/slices/products.slice";
+import { filterProductsThunk, getProductsThunk, filterHeadlineThunk } from "../store/slices/products.slice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -14,7 +13,7 @@ const Home = () => {
   const [inputSearch, setInputSearch] = useState("");
 
   useEffect(() => {
-    dispatch(getNewsThunk());
+    dispatch(getProductsThunk());
 
     axios
       .get("https://e-commerce-api.academlo.tech/api/v1/products/categories")
@@ -25,39 +24,66 @@ const Home = () => {
 
   return (
     <div>
-    <h1>Componente Home</h1>
-    {categoriesList.map((category) => (
-      <Button onClick={() => dispatch(filterNewsThunk(category.id))}>
-        {category.name}
-      </Button>
-    ))}
-    <InputGroup className="mb-3">
-      <Form.Control
-        placeholder="Recipient's username"
-        aria-label="Recipient's username"
-        aria-describedby="basic-addon2"
-        value={inputSearch}
-        onChange={(e) => setInputSearch(e.target.value)}
-      />
-      <Button
-        variant="outline-secondary"
-        onClick={() => dispatch(filterHeadlineThunk(inputSearch))}
-      >
-        Search
-      </Button>
-    </InputGroup>
-    {products.map((productItem) =>(
-        <li>
-          <Link to={`/product/${productItem.id}`}>
-          {productItem.title}
-          <br/>
-          <img src={productItem.productImgs[0]} style={{ width: 200 }} alt="" srcset="" />
+      <Row>
+        {/* CATEGORIAS */}
+        <Col lg={3}>
+          <ListGroup>
+            {categoriesList.map((category) => (
+              <ListGroup.Item
+                onClick={() => dispatch(filterProductsThunk(category.id))}
+                style={{ cursor: "pointer" }}
+                key={category.id}
+              >
+                {category.name}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Col>
 
-          </Link>
-        </li>
+        {/* Productos */}
+        <Col lg={9}>
+          <h1>Componente Home</h1>
 
-    ))}
-  </div>
+          <InputGroup className="mb-3">
+            <Form.Control
+              placeholder="Recipient's username"
+              aria-label="Recipient's username"
+              aria-describedby="basic-addon2"
+              value={inputSearch}
+              onChange={(e) => setInputSearch(e.target.value)}
+            />
+            <Button
+              variant="outline-secondary"
+              onClick={() => dispatch(filterHeadlineThunk(inputSearch))}
+            >
+              Search
+            </Button>
+          </InputGroup>
+          <Row xs={1} md={2} lg={3} className="g-4">
+            {products.map((productsItem) => (
+              <Col key={productsItem.id}>
+                <Card>
+                  <Link
+                    to={`/product/${productsItem.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Card.Img
+                      variant="top"
+                      src={productsItem?.productImgs}
+                      style={{ height: 200, objectFit: "cover" }}
+                    />
+                    <Card.Body>
+                      <Card.Title>{productsItem.title}</Card.Title>
+                      {/*<Card.Text>{newsItem.lead}</Card.Text>*/}
+                    </Card.Body>
+                  </Link>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Col>
+      </Row>
+    </div>
   );
 };
 
