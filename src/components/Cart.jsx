@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Offcanvas } from 'react-bootstrap';
+import { Button, Offcanvas } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartThunk } from '../store/slices/cart.slice';
 
@@ -16,9 +16,14 @@ const Cart = ({ show, handleClose }) => {
         <Offcanvas.Title>Offcanvas</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-        {cartss.map(carts => (
-          <div>{carts.title}</div>
-        ))}
+        <li >
+          {cartss.map(carts => (
+            <h1>{carts.title}</h1>
+            
+          ))}
+          <Button onClick={() => dispatch(checkoutCartThunk())}>Checkout</Button>
+        </li>
+
       </Offcanvas.Body>
     </Offcanvas>
   );

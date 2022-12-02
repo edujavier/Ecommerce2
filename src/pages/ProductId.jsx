@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { addToCartThunk } from "../store/slices/cart.slice";
 import { getProductsThunk } from "../store/slices/products.slice";
 const ProductId = () => {
 
@@ -23,21 +24,24 @@ const ProductId = () => {
   );
 
   console.log(relatedProducts);
-  const [rate, setRate] = useState('');
+  const [quantity, setQuantity] = useState('');
   const addToCart = () => {
     const products = {
       id: productsFound?.id,
-      quantity: rate
+      quantity: quantity
 
     }
     console.log(products)
+    dispatch(addToCartThunk(products))
   }
 
   return (
     <div>
       <h1>{productsFound?.title}</h1>
+      <p>{productsFound?.price}</p>
+      <p>{productsFound?.description}</p>
       <input type="text" />
-      <Button onClick={addToCart} value={rate} onChange={(e) => setRate(e.target.value)}>Add to cart</Button>
+      <Button onClick={addToCart} value={quantity} onChange={(e) => setQuantity(e.target.value)}>Add to cart</Button>
       {/*<p>By: {newsFound?.author}</p>
     <p>{newsFound?.date}</p>*/}
       <Row>
@@ -52,6 +56,7 @@ const ProductId = () => {
 
         {/* NOTICIAS RELACIONADAS */}
         <Col lg={3}>
+          
           <h3>Related Products:</h3>
           <ListGroup variant="flush">
             {relatedProducts.map((productsItem) => (
