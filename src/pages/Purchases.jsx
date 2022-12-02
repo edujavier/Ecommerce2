@@ -13,12 +13,18 @@ const Purchases = () => {
   return (
     <div>
       <h1>Purchases</h1>
-      <ul>
+      <ul key={purchases.id}>
         {purchases.map((purchase) => (
           <li key={purchase.id}>
             <Link to={`/purchases/${purchase.purchases?.id}`}>
-              {purchase.purchase?.title}
-              <img src={purchase.purchases?.productImgs} className="img-fluid" alt="" />
+              {purchase.cart.products.map(product =>(
+                <li>
+                  <h3><b>Product:</b>{product.title}</h3>
+                  <h3><b>Price: </b>{product.price}</h3>
+                  <h3><b>Purchase Date: </b>{product.createdAt}</h3>
+                </li>
+              ))}
+              
             </Link>
           </li>
         ))}

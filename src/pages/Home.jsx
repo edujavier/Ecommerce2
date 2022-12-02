@@ -69,11 +69,12 @@ const Home = () => {
                   >
                     <Card.Img
                       variant="top"
-                      src={productsItem?.productImgs}
+                      src={productsItem?.productImgs[0]}
                       style={{ height: 200, objectFit: "cover" }}
                     />
                     <Card.Body>
                       <Card.Title>{productsItem.title}</Card.Title>
+                      <Card.Title>${productsItem.price}</Card.Title>
                       {/*<Card.Text>{newsItem.lead}</Card.Text>*/}
                     </Card.Body>
                   </Link>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { getProductsThunk } from "../store/slices/products.slice";
@@ -23,10 +23,21 @@ const ProductId = () => {
   );
 
   console.log(relatedProducts);
+  const [rate, setRate] = useState('');
+  const addToCart = () => {
+    const products = {
+      id: productsFound?.id,
+      quantity: rate
+
+    }
+    console.log(products)
+  }
 
   return (
     <div>
       <h1>{productsFound?.title}</h1>
+      <input type="text" />
+      <Button onClick={addToCart} value={rate} onChange={(e) => setRate(e.target.value)}>Add to cart</Button>
       {/*<p>By: {newsFound?.author}</p>
     <p>{newsFound?.date}</p>*/}
       <Row>
@@ -46,7 +57,7 @@ const ProductId = () => {
             {relatedProducts.map((productsItem) => (
               <ListGroup.Item key={productsItem.id}>
                 <Link to={`/product/:id${productsItem.id}`}>
-                  <img src={productsItem?.productImgs} alt="" className="img-fluid" />
+                  <img src={productsItem?.productImgs[0]} alt="" className="img-fluid" />
                   {productsItem.title}
                 </Link>
               </ListGroup.Item>

@@ -10,6 +10,7 @@ import ProductId from './pages/ProductId';
 import Purchases from './pages/Purchases';
 import { useSelector } from "react-redux";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { Container } from 'react-bootstrap';
 
 function App() {
   const isLoading = useSelector((state) => state.isLoading);
@@ -18,15 +19,17 @@ function App() {
     <HashRouter>
       <NavBar />
       {isLoading && <LoadingScreen />}
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/product/:id' element={<ProductId />} />
-        <Route element={<ProtectedRoutes />}>
-          <Route path='/purchases' element={<Purchases />} />
-        </Route>
+      <Container className='my-5'>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/product/:id' element={<ProductId />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path='/purchases' element={<Purchases />} />
+          </Route>
 
-      </Routes>
+        </Routes>
+      </Container>
     </HashRouter>
   )
 }
